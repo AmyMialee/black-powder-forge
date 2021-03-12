@@ -51,10 +51,10 @@ public class StartupCommon {
         };
 
         blunderbussItem = new BlunderbussItem(8, 20, 160, 25, blunderbussSounds);
-        blunderbehemothItem = new BlunderbussItem(800, 40, 480, 35, blunderbussSounds);
-        flintlockItem = new GunItem(1, 10, 50, 15, flintlockSounds);
+        blunderbehemothItem = new BlunderbussItem(800, 40, 480, 120, blunderbussSounds);
+        flintlockItem = new GunItem(1, 10, 50, 8, flintlockSounds);
         musketItem = new GunItem(1, 7, 100, 15, musketSounds);
-        rifleItem = new GunItem(1, 3, 160, 25, rifleSounds);
+        rifleItem = new GunItem(1, 3, 160, 30, rifleSounds);
         musketBallItem = new BulletItem();
         blunderBallItem = new BulletItem();
 

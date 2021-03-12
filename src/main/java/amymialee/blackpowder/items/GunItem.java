@@ -18,6 +18,7 @@ import net.minecraft.entity.projectile.SnowballEntity;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.*;
@@ -150,13 +151,13 @@ public class GunItem extends CrossbowItem implements IVanishable {
         List<ItemStack> list = getChargedProjectiles(stack);
         if (isCharged(stack) && !list.isEmpty()) {
             ItemStack itemstack = list.get(0);
-            tooltip.add((new TranslationTextComponent("item.minecraft.crossbow.projectile")).appendString(" ").append(itemstack.getTextComponent()));
+            tooltip.add((new TranslationTextComponent("item.minecraft.crossbow.projectile")).appendString(" ").appendSibling(itemstack.getTextComponent()));
             if (flagIn.isAdvanced() && itemstack.getItem() == Items.FIREWORK_ROCKET) {
                 List<ITextComponent> list1 = Lists.newArrayList();
                 Items.FIREWORK_ROCKET.addInformation(itemstack, worldIn, list1, flagIn);
                 if (!list1.isEmpty()) {
                     for(int i = 0; i < list1.size(); ++i) {
-                        list1.set(i, (new StringTextComponent("  ")).append(list1.get(i)).mergeStyle(TextFormatting.GRAY));
+                        list1.set(i, (new StringTextComponent("  ")).appendSibling(list1.get(i)).mergeStyle(TextFormatting.GRAY));
                     }
 
                     tooltip.addAll(list1);
@@ -272,12 +273,13 @@ public class GunItem extends CrossbowItem implements IVanishable {
 
     private static void fireProjectile(World worldIn, LivingEntity shooter, Hand handIn, ItemStack gun, ItemStack projectile, float soundPitch, boolean isCreativeMode, float velocity, float inaccuracy, float projectileAngle, int bulletCount) {
         if (!worldIn.isRemote) {
+
             for (int i = 0; i < bulletCount; i++) {
                 ProjectileEntity projectileentity = createBullet(worldIn, shooter, gun, projectile);
 
                 if (shooter instanceof ICrossbowUser) {
                     ICrossbowUser icrossbowuser = (ICrossbowUser) shooter;
-                    icrossbowuser.func_230284_a_(icrossbowuser.getAttackTarget(), gun, projectileentity, projectileAngle);
+                    icrossbowuser.fireProjectile(icrossbowuser.getAttackTarget(), gun, projectileentity, projectileAngle);
                 } else {
                     Vector3d vector3d1 = shooter.getUpVector(1.0F);
                     Quaternion quaternion = new Quaternion(new Vector3f(vector3d1), projectileAngle, true);
